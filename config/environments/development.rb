@@ -61,6 +61,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.after_initialize do
-    Setting.update_config if ActiveRecord::Base.connection.table_exists? 'settings'
+    settings_table_present = ActiveRecord::Base.connection.table_exists?('settings') rescue false
+    Setting.update_config if settings_table_present
   end
 end
